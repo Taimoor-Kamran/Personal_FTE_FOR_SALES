@@ -1,14 +1,15 @@
-# AI Sales Representative
+# Andy — AI Sales Representative
 
 **Document status:** Draft for client review · 28 September 2026  
 **Scope:** One supervised AI sales representative, developed toward a full-time-equivalent (FTE) operating capacity  
+**Working name:** Andy, the client-facing sales representative (a nickname, not a claim that a person named Andreas is personally handling every exchange)  
 **Terminology:** “FTE” describes the intended coverage and workload. It is **not** a claim that the system currently replaces a person or can operate without human oversight.
 
 ## Executive summary
 
-The proposed AI sales representative responds to assigned leads, qualifies opportunities, answers questions from approved knowledge, schedules meetings, prepares proposals for approval, records activity in the CRM, and follows up within explicit rules. It can also join selected client meetings as a disclosed AI participant, but live meeting participation is a separate technical feasibility milestone.
+Andy is a named, client-facing AI sales representative. Andy directly conducts assigned customer conversations on an approved channel: responds to inquiries, asks qualifying questions, answers from approved knowledge, arranges next steps, prepares proposals for approval, records activity in the CRM, and follows up within explicit rules. Andy is intended to feel like a consistent member of the sales team, with a natural name and communication style. This is a customer conversation product, not merely a tool that summarizes meetings afterward. Joining selected client meetings to speak with participants is a separate technical feasibility milestone.
 
-The first release should be **inbound, supervised, and measurable**. A human approves pricing, commitments, outbound campaigns, and external proposals. Wider autonomy is earned only after testing against real sales cases and reviewing outcomes. This document describes the product, architecture, controls, delivery stages, dependencies, and acceptance criteria. It is a plan, not a completed implementation or a guaranteed integration.
+The first release should be **inbound, supervised, and measurable**, with Andy sending customer-facing replies where the approved channel and policy permit. A human approves pricing, commitments, outbound campaigns, and external proposals. Wider autonomy is earned only after testing against real sales cases and reviewing outcomes. The proposed presentation is that customers communicate with “Andy” as the sales contact; the requested degree of AI disclosure is a separate, unresolved launch decision (see section 3). This document describes the product, architecture, controls, delivery stages, dependencies, and acceptance criteria. It is a plan, not a completed implementation or a guaranteed integration.
 
 ## 1. Business outcome and scope
 
@@ -25,16 +26,16 @@ The first release should be **inbound, supervised, and measurable**. A human app
 | Area | First release | Later, subject to validation |
 | --- | --- | --- |
 | Lead intake | One connected inbound channel or a manual lead queue | More channels, deduplication, routing |
-| Conversation | Draft or send approved responses under a bounded policy | Broader autonomous conversations |
+| Conversation | Andy directly replies to assigned customers under a bounded policy; review before sending where required | Broader autonomous conversations |
 | Qualification | Ask required questions, score completeness, flag fit and urgency | Segment-specific playbooks and prioritization |
 | Knowledge | Search approved product, policy, and FAQ sources with source attribution | More connected knowledge systems |
 | Scheduling | Suggest slots or prepare a booking request, depending on access | Direct booking and rescheduling |
 | Proposal | Collect requirements and draft an offer for human review | Restricted auto-approval for defined low-risk cases |
 | CRM | Create/update assigned records with audit history | More automated opportunity workflows |
-| Meetings | Prepare a brief and draft a summary | Disclosed two-way voice attendance if phase 0 succeeds |
+| Meetings | Prepare a brief and draft a summary for the team | Two-way voice attendance if phase 0 succeeds and identity/disclosure requirements are resolved |
 | Reporting | Activity, handovers, response time, and quality review | Pipeline and revenue attribution |
 
-**Out of scope at launch:** making binding promises, negotiating contracts without approval, mass unsolicited outreach, pretending to be human, and silently recording client calls.
+**Out of scope at launch:** making binding promises, negotiating contracts without approval, mass unsolicited outreach, unapproved identity claims, and silently recording client calls.
 
 ## 2. Sales workflow
 
@@ -52,7 +53,7 @@ flowchart TD
     I --> J["Review outcome and quality"]
 ```
 
-**Example:** A new customer asks for a solution, deadline, and price. The assistant checks the approved product material, asks for missing requirements, records the answers, and prepares a quotation request. If a verified price list and an explicit pricing rule exist, it may present an authorized range. Otherwise it states that the price needs review and routes the request to a salesperson. The customer sees a coherent conversation; the team receives the complete record and next action.
+**Example:** A new customer asks Andy for a solution, deadline, and price. Andy checks the approved product material, asks the customer directly for missing requirements, records the answers, and prepares a quotation request. If a verified price list and an explicit pricing rule exist, Andy may present an authorized range. Otherwise Andy states that the price needs review and routes the request to a salesperson. The customer receives a coherent conversation with a named sales contact; the team receives the complete record and next action.
 
 ### Lead states
 
@@ -71,9 +72,13 @@ Each state change records its trigger, time, actor, and source. A reminder is sc
 | Quote a price, discount, lead time, or specification | Use only verified data and explicit rules; approval required outside those bounds. |
 | Issue a proposal or change commercial terms | Human approval in the pilot. |
 | Handle legal, sensitive, unusual, or dissatisfied-customer matters | Handover to the designated person. |
-| Join a client meeting | Only if explicitly enabled for that meeting and technically proven; disclose AI identity. |
+| Join a client meeting | Only if explicitly enabled for that meeting, technically proven, and the applicable identity and disclosure requirements are resolved. |
 
 The owner can pause the assistant, inspect the conversation, edit a draft, reassign a lead, or take over. An emergency stop disables external actions while preserving the audit trail.
+
+### Andy's customer-facing identity
+
+Andy is the proposed sales contact name and voice. The client intends customers to interact with Andy as part of its team without proactively presenting Andy as an AI system. This is a requested product behavior, **not an approved launch condition**. Before any live deployment, the client must approve the exact channel-specific introduction, signature, responses when customers ask whether Andy is human, and human handover wording; counsel and channel/provider owners must review applicable disclosure and consumer-protection requirements. Andy must not fabricate personal experiences, credentials, a human biography, or claim that Andreas personally wrote a message. The launch decision and its approved wording should be recorded in the policy and tested. The same review applies separately to speaking in meetings, where participant identity and any recording or transcription require additional controls.
 
 ## 4. System architecture
 
@@ -109,7 +114,7 @@ These are implementation candidates, not a commitment to specific vendors. Store
 
 ## 5. Meeting capability: independent feasibility gate
 
-The supplied project brief originally focused on a personal meeting assistant. That remains a useful **sales meeting module**, but it should not be treated as the foundation of the entire sales representative. Email/CRM qualification can be valuable even if live meeting joining proves unsuitable.
+The supplied project brief originally focused on a personal meeting assistant. That remains a useful **sales meeting module**, but Andy's primary role is talking directly with customers over connected sales channels. In the initial release, Andy can prepare meeting briefs and reviewed summaries for the team. Speaking to participants during a meeting is a separate module that must be proven before it is offered as a working feature.
 
 ```mermaid
 flowchart LR
@@ -122,7 +127,7 @@ flowchart LR
 
 For the first experiment, use a test Zoom invitation with phone dial-in and a fictional client brief. A telephony service would dial the meeting number, enter the meeting ID and phone passcode, and bridge meeting audio with a realtime voice agent. This is **a hypothesis to test**, not a working or universally permitted Zoom integration. Phone participants may appear as phone numbers, need host admission, and cannot see a screen share. The host account and invitation must actually offer phone dial-in. Zoom's Meeting SDK is reserved for human use cases and does not support AI bots/notetakers; do not assume it provides a shortcut for a speaking AI participant. Google Meet's Media API is in Developer Preview with access requirements, so Meet is a separate later investigation. See the official references below.
 
-**Exit gate:** demonstrate a disclosed, two-way test call; record join success, participant identity, interruptions, end-to-end delay, dropouts, and handover behavior. If it fails, ship the text-based sales pilot and keep human-hosted meetings with AI-prepared briefs and reviewed summaries.
+**Exit gate:** demonstrate a two-way test call with the identity and disclosure protocol approved for the test; record join success, participant identity, interruptions, end-to-end delay, dropouts, and handover behavior. If it fails, ship the text-based sales pilot and keep human-hosted meetings with Andy-prepared briefs and reviewed summaries.
 
 ## 6. Data and access model
 
@@ -178,7 +183,7 @@ Stages can overlap after discovery. The total depends heavily on existing CRM qu
 - Supply current product/pricing/policy documents, with owners and effective dates.
 - Share 20–50 anonymized representative inquiries and examples of good responses, including difficult cases.
 - Define required qualification fields, lead stages, routing, service hours, languages, and target response times.
-- Approve the authority matrix, review rules, disclosure wording, follow-up limits, and retention policy.
+- Approve the authority matrix, review rules, Andy's customer-facing identity and disclosure wording after applicable review, follow-up limits, and retention policy.
 - Provide test accounts and participants for any meeting audio feasibility experiment.
 
 The implementation team provides the technical prototype, integration mapping, evaluation results, operational documentation, and a handover procedure. Each production connection needs a named owner and tested rollback path.
@@ -195,6 +200,7 @@ The implementation team provides the technical prototype, integration mapping, e
 | Message or CRM duplication after retries | Idempotency keys, delivery reconciliation, event log. |
 | Prompt injection in inbound messages or files | Treat external content as data, enforce actions through server-side policy, test adversarial cases. |
 | Failed meeting connection | Separate feasibility gate and a human-hosted meeting fallback. |
+| Customers misunderstand Andy's identity | Approve introduction/signature and direct answers to identity questions before launch; review applicable rules and escalate complaints. |
 | Model/provider changes or cost growth | Track quality and unit costs; keep business rules and adapters independent of the model. |
 
 ## 11. Decisions to finalize at kickoff
@@ -204,8 +210,9 @@ The implementation team provides the technical prototype, integration mapping, e
 3. Can the pilot send any messages automatically, or must all external replies be approved?
 4. Which prices, discounts, timelines, and promises may the AI communicate?
 5. What languages, service hours, regions, data residency, and retention are required?
-6. Is live attendance at sales meetings essential for the first release, or an optional module after the text pilot?
-7. What baseline and target numbers define a successful pilot?
+6. Which client-facing presentation for Andy is approved on each channel after identity/disclosure review? How should Andy answer direct questions about being AI, and who takes over on request?
+7. Is live attendance at sales meetings essential for the first release, or an optional module after the text pilot?
+8. What baseline and target numbers define a successful pilot?
 
 ## 12. Immediate next step
 
