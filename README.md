@@ -1,6 +1,6 @@
 # Andy — AI Sales Representative
 
-**Document status:** Draft for client review · 28 September 2026  
+**Document status:** 28 September 2026  
 **Scope:** One supervised AI sales representative, developed toward a full-time-equivalent (FTE) operating capacity  
 **Working name:** Andy, the client-facing sales representative (a nickname, not a claim that a person named Andreas is personally handling every exchange)  
 **Terminology:** “FTE” describes the intended coverage and workload. It is **not** a claim that the system currently replaces a person or can operate without human oversight.
