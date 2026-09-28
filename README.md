@@ -1,4 +1,4 @@
-# AI Sales Representative — Client Proposal and Build Plan
+# AI Sales Representative
 
 **Document status:** Draft for client review · 28 September 2026  
 **Scope:** One supervised AI sales representative, developed toward a full-time-equivalent (FTE) operating capacity  
